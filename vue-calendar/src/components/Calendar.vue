@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="calendar" :class="isCalendarTheme ? 'dark' : 'light'">
+        <div class="calendar" :class="isThemeBtn ? 'dark' : 'light'">
             <div class="calendar__header grid">
                 <div class="calendar__title">
                     <p class="title">
@@ -10,11 +10,9 @@
                     <p>{{currentDate.date}}</p>
                 </div>
                 <div class="calendar__buttons">
-                    <div @click.prevent="changeTheme()" class="change-theme">
-                        <span class="ico fas fa-moon"
-                        :class="isThemeBtn ? 'ico-light' : 'ico-dark'"
-                        ></span>
-                    </div>
+                    <the-btn-theme 
+                    @change-theme="changeTheme()"
+                    ></the-btn-theme>
                     <button @click="previous()" class="btn btn--previous"><span class="fas fa-chevron-left"></span></button>
                     <button @click="next()" class="btn btn--next"><span class="fas fa-chevron-right"></span></button>
                 </div>
@@ -40,9 +38,14 @@
 </template>
 
 <script>
+import TheBtnTheme from './UI/TheBtnTheme.vue'
 export default {
     name: 'Calendar',
+    components:{
+        TheBtnTheme
+    },
     data(){
+        
         return{
             counter: null,
             currentDate: {
@@ -84,7 +87,6 @@ export default {
                 'Do'
             ],
             isEvent: false,
-            isCalendarTheme: false,
             isThemeBtn: false
             
         }
@@ -129,7 +131,7 @@ export default {
             return this.$router.push({name: '/EventCalendar', params: {date: this.dateSelected}})
         },
         changeTheme(){
-            return (this.isCalendarTheme = !this.isCalendarTheme, this.isThemeBtn = !this.isThemeBtn)
+            return this.isThemeBtn = !this.isThemeBtn
         }
     },
     created(){
@@ -240,39 +242,6 @@ export default {
         min-width: 45px;
         border: none;
         border-radius: 100%;
-    }
-}
-.change-theme{
-    width: 55px;
-    background-color: #ffffff;
-    border: 1px solid #d3d3d3;
-    border-radius: 15px;
-    overflow: hidden;
-    margin-left: auto;
-    margin-bottom: 25px;
-    cursor: pointer;
-    .ico {
-        font-size: 16px;
-        width: 25px;
-        height: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px;
-        border-radius: 50%;
-        transition: all .2s ease-in-out;
-        &.ico-dark{
-            color: #e2e2e2;
-            background-color: #242f3c;
-            border: 1px solid #d3d3d3;
-            transform: translateX(0);
-        }
-        &.ico-light{
-            color: #242f3c;
-            background-color: #f5f5f5;
-            border: 1px solid #d3d3d3;
-            transform: translateX(30px);
-        }
     }
 }
     
